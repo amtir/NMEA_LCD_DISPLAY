@@ -1,0 +1,19 @@
+<html>
+<body>
+<pre>
+<h1>µVision3 Build Log</h1>
+<h2>Project:</h2>
+C:\Documents and Settings\amtir\Bureau\LCD20x4_Display_NMEA\C_code_UC8051_LCD\LCDdisplay.uv2
+Project File Date:  09/12/2010
+
+<h2>Output:</h2>
+Build target 'Target 1'
+compiling LCD_Display.c...
+linking...
+*** WARNING L15: MULTIPLE CALL TO SEGMENT
+    SEGMENT: ?PR?_LCD_STRING?LCD_DISPLAY
+    CALLER1: ?PR?RECEIVE_SERIAL?LCD_DISPLAY
+    CALLER2: ?C_C51STARTUP
+Program Size: data=125.0 xdata=0 code=1915
+creating hex file from "LCDdisplay"...
+"LCDdisplay" - 0 Error(s), 1 Warning(s).

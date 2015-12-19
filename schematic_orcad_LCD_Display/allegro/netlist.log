@@ -1,0 +1,29 @@
+{ Using PSTWRITER 10.3.0 p001Aug-27-2010 at 16:33:13 }
+
+#1 Error   [ALG0012] Property "PCB Footprint" missing from instance U4: SCHEMATIC1, PAGE1 (5.40, 2.90).
+#2 Error   [ALG0012] Property "PCB Footprint" missing from instance C3: SCHEMATIC1, PAGE1 (0.30, 0.70).
+#3 Error   [ALG0012] Property "PCB Footprint" missing from instance R1: SCHEMATIC1, PAGE1 (4.90, 2.40).
+#4 Error   [ALG0012] Property "PCB Footprint" missing from instance U5: SCHEMATIC1, PAGE1 (4.30, 5.80).
+#5 Error   [ALG0012] Property "PCB Footprint" missing from instance R2: SCHEMATIC1, PAGE1 (7.30, 2.80).
+#6 Error   [ALG0012] Property "PCB Footprint" missing from instance C4: SCHEMATIC1, PAGE1 (6.40, 2.70).
+#7 Error   [ALG0012] Property "PCB Footprint" missing from instance R3: SCHEMATIC1, PAGE1 (7.30, 3.30).
+#8 Error   [ALG0012] Property "PCB Footprint" missing from instance C5: SCHEMATIC1, PAGE1 (1.50, 3.50).
+#9 Error   [ALG0012] Property "PCB Footprint" missing from instance R4: SCHEMATIC1, PAGE1 (7.30, 2.30).
+#10 Error   [ALG0012] Property "PCB Footprint" missing from instance C2 22pF: SCHEMATIC1, PAGE1 (0.80, 3.10).
+#11 Error   [ALG0012] Property "PCB Footprint" missing from instance C6: SCHEMATIC1, PAGE1 (0.50, 4.50).
+#12 Error   [ALG0012] Property "PCB Footprint" missing from instance R5: SCHEMATIC1, PAGE1 (8.30, 3.30).
+#13 Error   [ALG0012] Property "PCB Footprint" missing from instance C1 22pF: SCHEMATIC1, PAGE1 (0.40, 3.10).
+#14 Error   [ALG0012] Property "PCB Footprint" missing from instance R6: SCHEMATIC1, PAGE1 (0.30, 1.40).
+#15 Error   [ALG0012] Property "PCB Footprint" missing from instance R7: SCHEMATIC1, PAGE1 (6.50, 5.70).
+#16 Error   [ALG0012] Property "PCB Footprint" missing from instance R8: SCHEMATIC1, PAGE1 (6.50, 6.40).
+#17 Error   [ALG0012] Property "PCB Footprint" missing from instance J1: SCHEMATIC1, PAGE1 (8.60, 2.80).
+#18 Error   [ALG0012] Property "PCB Footprint" missing from instance J2: SCHEMATIC1, PAGE1 (8.70, 4.70).
+#19 Error   [ALG0012] Property "PCB Footprint" missing from instance J3: SCHEMATIC1, PAGE1 (0.90, 5.70).
+#20 Error   [ALG0012] Property "PCB Footprint" missing from instance Y1: SCHEMATIC1, PAGE1 (0.60, 2.60).
+#21 Error   [ALG0012] Property "PCB Footprint" missing from instance D1: SCHEMATIC1, PAGE1 (2.00, 5.70).
+#22 Error   [ALG0012] Property "PCB Footprint" missing from instance D2: SCHEMATIC1, PAGE1 (2.50, 6.00).
+#23 Error   [ALG0012] Property "PCB Footprint" missing from instance U2: SCHEMATIC1, PAGE1 (2.20, 0.60).
+#24 Error   [ALG0031] Pin number missing from Pin "1" of Package CON3 , J1: SCHEMATIC1, PAGE1 (8.60, 2.80). All pins should be numbered.
+#25 Error   [ALG0031] Pin number missing from Pin "2" of Package CON3 , J1: SCHEMATIC1, PAGE1 (8.60, 2.80). All pins should be numbered.
+#26 Error   [ALG0031] Pin number missing from Pin "3" of Package CON3 , J1: SCHEMATIC1, PAGE1 (8.60, 2.80). All pins should be numbered.
+#27 Aborting Netlisting... Please correct the above errors and retry.

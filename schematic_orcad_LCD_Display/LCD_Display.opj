@@ -1,0 +1,195 @@
+(ExpressProject "LCD_Display"
+  (ProjectVersion "19981106")
+  (ProjectType "PCB")
+  (Folder "Design Resources"
+    (Folder "Library"
+      (File "C:\OrCAD\OrCAD_10.3\tools\capture\LIBRARY\Amplifier.olb"
+        (Type "Schematic Library"))
+      (File "C:\OrCAD\OrCAD_10.3\tools\capture\LIBRARY\Arithmetic.olb"
+        (Type "Schematic Library"))
+      (File "C:\OrCAD\OrCAD_10.3\tools\capture\LIBRARY\ATOD.OLB"
+        (Type "Schematic Library"))
+      (File
+         "C:\OrCAD\OrCAD_10.3\tools\capture\LIBRARY\BusDriverTransceiver.olb"
+        (Type "Schematic Library"))
+      (File "C:\OrCAD\OrCAD_10.3\tools\capture\LIBRARY\capsym.olb"
+        (Type "Schematic Library"))
+      (File "C:\OrCAD\OrCAD_10.3\tools\capture\LIBRARY\Connector.olb"
+        (Type "Schematic Library"))
+      (File "C:\OrCAD\OrCAD_10.3\tools\capture\LIBRARY\Counter.olb"
+        (Type "Schematic Library"))
+      (File "C:\OrCAD\OrCAD_10.3\tools\capture\LIBRARY\Discrete.olb"
+        (Type "Schematic Library"))
+      (File "C:\OrCAD\OrCAD_10.3\tools\capture\LIBRARY\DRAM.OLB"
+        (Type "Schematic Library"))
+      (File "C:\OrCAD\OrCAD_10.3\tools\capture\LIBRARY\ElectroMechanical.olb"
+        (Type "Schematic Library"))
+      (File "C:\OrCAD\OrCAD_10.3\tools\capture\LIBRARY\FIFO.OLB"
+        (Type "Schematic Library"))
+      (File "C:\OrCAD\OrCAD_10.3\tools\capture\LIBRARY\Filter.olb"
+        (Type "Schematic Library"))
+      (File "C:\OrCAD\OrCAD_10.3\tools\capture\LIBRARY\FPGA.OLB"
+        (Type "Schematic Library"))
+      (File "C:\OrCAD\OrCAD_10.3\tools\capture\LIBRARY\Gate.olb"
+        (Type "Schematic Library"))
+      (File "C:\OrCAD\OrCAD_10.3\tools\capture\LIBRARY\Latch.olb"
+        (Type "Schematic Library"))
+      (File "C:\OrCAD\OrCAD_10.3\tools\capture\LIBRARY\LineDriverReceiver.olb"
+        (Type "Schematic Library"))
+      (File "C:\OrCAD\OrCAD_10.3\tools\capture\LIBRARY\Mechanical.olb"
+        (Type "Schematic Library"))
+      (File "C:\OrCAD\OrCAD_10.3\tools\capture\LIBRARY\MicroController.olb"
+        (Type "Schematic Library"))
+      (File "C:\OrCAD\OrCAD_10.3\tools\capture\LIBRARY\MicroProcessor.olb"
+        (Type "Schematic Library"))
+      (File "C:\OrCAD\OrCAD_10.3\tools\capture\LIBRARY\Misc.olb"
+        (Type "Schematic Library"))
+      (File "C:\OrCAD\OrCAD_10.3\tools\capture\LIBRARY\MISC.OLBlck"
+        (Type "Schematic Library"))
+      (File "C:\OrCAD\OrCAD_10.3\tools\capture\LIBRARY\Misc2.olb"
+        (Type "Schematic Library"))
+      (File "C:\OrCAD\OrCAD_10.3\tools\capture\LIBRARY\Misc3.olb"
+        (Type "Schematic Library"))
+      (File "C:\OrCAD\OrCAD_10.3\tools\capture\LIBRARY\MiscLinear.olb"
+        (Type "Schematic Library"))
+      (File "C:\OrCAD\OrCAD_10.3\tools\capture\LIBRARY\MiscMemory.olb"
+        (Type "Schematic Library"))
+      (File "C:\OrCAD\OrCAD_10.3\tools\capture\LIBRARY\MiscPower.olb"
+        (Type "Schematic Library"))
+      (File "C:\OrCAD\OrCAD_10.3\tools\capture\LIBRARY\MuxDecoder.olb"
+        (Type "Schematic Library"))
+      (File "C:\OrCAD\OrCAD_10.3\tools\capture\LIBRARY\OPAmp.olb"
+        (Type "Schematic Library"))
+      (File "C:\OrCAD\OrCAD_10.3\tools\capture\LIBRARY\PassiveFilter.olb"
+        (Type "Schematic Library"))
+      (File "C:\OrCAD\OrCAD_10.3\tools\capture\LIBRARY\PLD.OLB"
+        (Type "Schematic Library"))
+      (File "C:\OrCAD\OrCAD_10.3\tools\capture\LIBRARY\PROM.OLB"
+        (Type "Schematic Library"))
+      (File "C:\OrCAD\OrCAD_10.3\tools\capture\LIBRARY\Regulator.olb"
+        (Type "Schematic Library"))
+      (File "C:\OrCAD\OrCAD_10.3\tools\capture\LIBRARY\ShiftRegister.olb"
+        (Type "Schematic Library"))
+      (File "C:\OrCAD\OrCAD_10.3\tools\capture\LIBRARY\SRAM.OLB"
+        (Type "Schematic Library"))
+      (File "C:\OrCAD\OrCAD_10.3\tools\capture\LIBRARY\Transistor.olb"
+        (Type "Schematic Library"))
+      (File ".\mylib.olb"
+        (Type "Schematic Library")))
+    (NoModify)
+    (File ".\lcd_display.dsn"
+      (Type "Schematic Design"))
+    (BuildFileAddedOrDeleted "x")
+    (CompileFileAddedOrDeleted "x")
+    (Netlist_TAB "3")
+    (LAYOUT_Netlist_File "LCD_DISPLAY.MNL")
+    (LAYOUT_PCB_Footprint "{PCB Footprint}")
+    (FALSE)
+    (LAYOUT_Units "0")
+    (BOM_Scope "0")
+    (BOM_Mode "0")
+    (BOM_Report_File "C:\ORCAD\TEST\LCD_DISPLAY\LCD_DISPLAY.BOM")
+    (BOM_Merge_Include "FALSE")
+    (BOM_Property_Combine_7.0
+       "{Item}\t{Quantity}\t{Reference}\t{PCB Footprint}\t{Value}")
+    (BOM_Header "Item\tQuantity\tReference\tPCB Footprint\tPart")
+    (BOM_Include_File "C:\ORCAD\TEST\LCD_DISPLAY\LCD_DISPLAY.INC")
+    (BOM_Include_File_Combine_7.0 "{Item}\t{Quantity}\t{Reference}\t{Value}")
+    (BOM_One_Part_Per_Line "FALSE")
+    (Open_BOM_in_Excel "TRUE")
+    (BOM_View_Output "FALSE")
+    (FALSE))
+  (Folder "Outputs"
+    (File ".\lcd_display.mnl"
+      (Type "LAYOUT Netlist File"))
+    (File ".\lcd_display.bom"
+      (Type "Report")))
+  (Folder "Referenced Projects")
+  (PartMRUSelector
+    ("SW SPST"
+      (FullPartName "SW SPST.Normal")
+      (LibraryName "C:\ORCAD\ORCAD_10.3\TOOLS\CAPTURE\LIBRARY\DISCRETE.OLB")
+      (DeviceIndex "0"))
+    (CON2
+      (FullPartName "CON2.Normal")
+      (LibraryName "C:\ORCAD\ORCAD_10.3\TOOLS\CAPTURE\LIBRARY\CONNECTOR.OLB")
+      (DeviceIndex "0"))
+    ("CONN TRBLK 3"
+      (FullPartName "CONN TRBLK 3.Normal")
+      (LibraryName "C:\ORCAD\ORCAD_10.3\TOOLS\CAPTURE\LIBRARY\CONNECTOR.OLB")
+      (DeviceIndex "0"))
+    (DCDC
+      (FullPartName "DCDC.Normal")
+      (LibraryName "C:\ORCAD\TEST\LCD_DISPLAY\MYLIB.OLB")
+      (DeviceIndex "0"))
+    (R
+      (FullPartName "R.Normal")
+      (LibraryName "C:\PROGRAM FILES\ORCAD DEMO\CAPTURE\LIBRARY\DISCRETE.OLB")
+      (DeviceIndex "0"))
+    ("CONN TRBLK 16"
+      (FullPartName "CONN TRBLK 16.Normal")
+      (LibraryName "C:\ORCAD\ORCAD_10.3\TOOLS\CAPTURE\LIBRARY\CONNECTOR.OLB")
+      (DeviceIndex "0"))
+    (CAPACITOR
+      (FullPartName "CAPACITOR.Normal")
+      (LibraryName "C:\ORCAD\ORCAD_10.3\TOOLS\CAPTURE\LIBRARY\DISCRETE.OLB")
+      (DeviceIndex "0"))
+    (GND
+      (LibraryName "C:\ORCAD\ORCAD_10.3\TOOLS\CAPTURE\LIBRARY\CAPSYM.OLB")
+      (DeviceIndex "0"))
+    (ADM202
+      (FullPartName "ADM202.Normal")
+      (LibraryName
+         "C:\ORCAD\ORCAD_10.3\TOOLS\CAPTURE\LIBRARY\LINEDRIVERRECEIVER.OLB")
+      (DeviceIndex "0"))
+    (ADM485
+      (FullPartName "ADM485.Normal")
+      (LibraryName
+         "C:\ORCAD\ORCAD_10.3\TOOLS\CAPTURE\LIBRARY\LINEDRIVERRECEIVER.OLB")
+      (DeviceIndex "0"))
+    (8051
+      (FullPartName "8051.Normal")
+      (LibraryName
+         "C:\ORCAD\ORCAD_10.3\TOOLS\CAPTURE\LIBRARY\MICROCONTROLLER.OLB")
+      (DeviceIndex "0"))
+    (CRYSTAL
+      (FullPartName "CRYSTAL.Normal")
+      (LibraryName "C:\ORCAD\ORCAD_10.3\TOOLS\CAPTURE\LIBRARY\DISCRETE.OLB")
+      (DeviceIndex "0"))
+    (8052
+      (FullPartName "8052.Normal")
+      (LibraryName
+         "C:\ORCAD\ORCAD_10.3\TOOLS\CAPTURE\LIBRARY\MICROCONTROLLER.OLB")
+      (DeviceIndex "0")))
+  (GlobalState
+    (FileView
+      (Path "Design Resources")
+      (Path "Design Resources"
+         "C:\Documents and Settings\amtir\Bureau\work\pcb_orcad_LCD_Display\lcd_display.dsn")
+      (Path "Design Resources"
+         "C:\Documents and Settings\amtir\Bureau\work\pcb_orcad_LCD_Display\lcd_display.dsn"
+         "SCHEMATIC1")
+      (Path "Design Resources" "Library")
+      (Path "Outputs")
+      (Select "Design Resources"
+         "C:\Documents and Settings\amtir\Bureau\work\pcb_orcad_LCD_Display\lcd_display.dsn"
+         "SCHEMATIC1" "PAGE1"))
+    (HierarchyView)
+    (Doc
+      (Type "COrCapturePMDoc")
+      (Frame
+        (Placement "44 0 1 -1 -1 -1 -1 0 719 0 593"))
+      (Tab 0))
+    (Doc
+      (Type "COrSchematicDoc")
+      (Frame
+        (Placement "44 0 1 -1 -1 -1 -1 44 1412 44 664")
+        (Scroll "0 0")
+        (Zoom "100")
+        (Occurrence "/"))
+      (Path
+         "C:\DOCUMENTS AND SETTINGS\AMTIR\BUREAU\WORK\PCB_ORCAD_LCD_DISPLAY\LCD_DISPLAY.DSN")
+      (Schematic "SCHEMATIC1")
+      (Page "PAGE1")))
+  (MPSSessionName "amtir")
+  (LastUsedLibraryBrowseDirectory "C:\OrCAD\OrCAD_10.3\tools\capture\library"))

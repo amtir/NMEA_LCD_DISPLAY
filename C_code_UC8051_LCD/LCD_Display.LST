@@ -1,0 +1,514 @@
+C51 COMPILER V8.06   LCD_DISPLAY                                                           09/14/2010 11:41:14 PAGE 1   
+
+
+C51 COMPILER V8.06, COMPILATION OF MODULE LCD_DISPLAY
+OBJECT MODULE PLACED IN LCD_Display.OBJ
+COMPILER INVOKED BY: C:\Keil\C51\BIN\C51.EXE LCD_Display.c BROWSE DEBUG OBJECTEXTEND
+
+line level    source
+
+   1          /********************************************************************/
+   2          /* Program:  This program displays the wind speed [m/s] and the wind*/
+   3          /* direction on an LCD (20x4) from the  ELBW weather station            */
+   4          /* (RS485 bus, NMEA0183 protocol)                                                                       */                                 
+   5          /* MCU      : P89V51RB2 (XTAL=18.432 MHz)                                           */
+   6          /* Compiler : Keil C51 (V8.05a)                                                     */
+   7          /* Writen By :  MTIR Akram 14/09/2010                                                       */
+   8          /* Examples : Display 20x4 characters LCD 4 bit mode, playing           */
+   9          /* with timers, UART/RS232/RS422/RS485 8,N,4800,1                               */
+  10          /********************************************************************/
+  11          /**************************************************/
+  12          /* Pins used to control the LCD (software)                */
+  13          /* P1.2        --> RS (Register Select)                   */
+  14          /* P1.3            --> E (Enable signal)                          */
+  15          /* P1.4-P1.7   --> Data bus                                               */
+  16          /*------------------------------------------------*/
+  17          /* Pins used to control the UART (hardware)               */
+  18          /* P3.1            -->  TXD                                                       */
+  19          /* P3.0            -->  RXD                                                       */
+  20          /**************************************************/
+  21          /*      Schematic
+  22                  
+  23          (1) The weather station                       (2) LCD board     
+  24                                                                 _________                                        
+  25          O-------|||||||||                         ¦                     ¦                               
+  26                          |       |                         ¦                     ¦               ¦-------------¦
+  27          O-------|  UC   |=============¦   UC    ¦:::::::¦ LCD Display ¦
+  28                          |       | NMEA RS232  ¦                 ¦               ¦-------------¦
+  29          O-------|||||||||                         ¦_________¦           
+  30                                                                                                          
+  31                                                                  
+  32          Sensors   UC8051                           UC 8052                      LCD Display                                             
+  33                                                                                                                                                          */
+  34          //------------------------------------------------------------------------------------------------
+  35          #include <t89c51rd2.h>
+  36          #include <stdio.h>
+  37          #include <string.h>
+  38          //------------------------------------------------------------------------------------------------
+  39          unsigned char temp;
+  40          unsigned char test= 0;
+  41          code unsigned char end = 0x0A;  // LF Line feed
+  42          code unsigned char deg[2]= {0xDF,0};    // ° character  , Ending the string  with a null character
+  43          unsigned char dataWind[96]; 
+  44          unsigned char dataBuff[7]="       ";
+  45          unsigned char checksum=0; 
+  46          //------------------------------------------------------------------------------------------------
+  47          void Delay(unsigned char);
+  48          void LCD_Command(unsigned char);
+  49          void LCD_String(unsigned char *);
+  50          void LCD_Template();
+  51          unsigned char check(unsigned char )     ;
+  52          unsigned char hex_byte(char);
+  53          //------------------------------------------------------------------------------------------------
+  54          
+  55          
+C51 COMPILER V8.06   LCD_DISPLAY                                                           09/14/2010 11:41:14 PAGE 2   
+
+  56          //----------------------------------------------------
+  57          //--- Convert a single hex character into decimal 
+  58          //----------------------------------------------------
+  59          unsigned char hex_byte(char x)
+  60          {
+  61   1         unsigned char r;
+  62   1      
+  63   1         switch(x)
+  64   1         {
+  65   2                case 'A':     r=10; break;
+  66   2                case 'B': r=11; break;
+  67   2                case 'C': r=12; break;
+  68   2                case 'D': r=13; break;
+  69   2                case 'E': r=14; break;
+  70   2                case 'F': r=15; break;
+  71   2                default: r = x - '0';
+  72   2         }
+  73   1         return(r);
+  74   1      }
+  75          //------------------------------------------------------------------------------------------------
+  76          //--- Check the chechsum of the message and return the status
+  77          //-----------------------------------------------------------------
+  78          unsigned char check(unsigned char n)      
+  79          {
+  80   1       unsigned char j=n+1;
+  81   1       unsigned char chk=0;
+  82   1      
+  83   1       checksum = 0;
+  84   1      
+  85   1        while(dataWind[j]!='*')
+  86   1        {
+  87   2              switch(dataWind[j])
+  88   2              {
+  89   3              //      case '$':
+  90   3              //              break;
+  91   3              //      case '*':
+  92   3              //              continue;
+  93   3                      default:
+  94   3                      {
+  95   4                              if (  checksum==0  )
+  96   4                                      checksum=dataWind[j] ;
+  97   4                              else 
+  98   4                                      checksum=checksum^dataWind[j];
+  99   4                      }
+ 100   3                  break;
+ 101   3              }
+ 102   2              j++;
+ 103   2       }
+ 104   1      
+ 105   1       chk = 16 * hex_byte(dataWind[j+1])  + hex_byte(dataWind[j+2])  ;
+ 106   1      
+ 107   1       if (checksum == chk)
+ 108   1              return(1);
+ 109   1       else
+ 110   1              return(0);
+ 111   1      }
+ 112            //------------------------------------------------------------------------------------------------------
+             --------------
+ 113          Init_Serial()
+ 114          {
+ 115   1       IE=0x90; // Set EA = 1 --> Interrupt can be serviced, ES = 1  --> Serial port interrupt enable
+ 116   1       SCON=0x50; // Serial Port control register 
+C51 COMPILER V8.06   LCD_DISPLAY                                                           09/14/2010 11:41:14 PAGE 3   
+
+ 117   1       // SM0 = 0 SM1=1 --> 8 bit UART baud rate variable working in mode 1 
+ 118   1       //REN = 1 --> Enable serial reception 
+ 119   1       PCON=0; // Serial port working in normal mode
+ 120   1       T2MOD=0x00; // 
+ 121   1       RCAP2H=0xFF; // Set Baud rate to 9600 bps
+ 122   1       RCAP2L=0x88;  //0x88 -->  4800 bps and 0xC4 --> Set Baud rate to 9600 bps
+ 123   1       T2CON=0x34; // Enable Timer2 TR2 = '1' and use overflow of Timer 2 to generate clock signal for both Tx &
+             - Rx of serial
+ 124   1      }
+ 125          //--------------------------------------------------------------------------------------------------------
+             ------------------
+ 126          void Delay(unsigned char time) // Delay(1)= delay 20 ms
+ 127          {
+ 128   1       unsigned char count;
+ 129   1       for(count=0;count<time;count++) 
+ 130   1       {
+ 131   2        TH0=0x87;
+ 132   2        TL0=0xFF;
+ 133   2        TR0=1;
+ 134   2        TF0=0;
+ 135   2        while (TF0==0);
+ 136   2        TR0=0;
+ 137   2       }
+ 138   1      }
+ 139          //-------------------------------------------------------------------------------------
+ 140          LCD_Enable()
+ 141          {
+ 142   1       P1_3=0; // Clear Enable
+ 143   1       Delay(10);
+ 144   1       P1_3=1; // Set Enable
+ 145   1      }
+ 146          //-------------------------------------------------------------------------------------
+ 147          void LCD_Command(unsigned char Command)
+ 148          {
+ 149   1       P1_2=0; //Set for command
+ 150   1       P1_3=1; //Set Enable
+ 151   1       P1=(P1 & 0x0F)|(Command & 0xF0);
+ 152   1       LCD_Enable();
+ 153   1       P1=(P1 & 0x0F)|((Command<<4)&0xF0);
+ 154   1       LCD_Enable();
+ 155   1      }
+ 156          //-----------------------------------------------------------------------------------
+ 157          void LCD_Data(unsigned char Data)
+ 158          {
+ 159   1       P1_2=1; // Set for data
+ 160   1       P1_3=1; // Set Enable
+ 161   1       P1=(P1 & 0x0F)|(Data & 0xF0);
+ 162   1       LCD_Enable();
+ 163   1       P1=(P1 & 0x0F)|((Data<<4)&0xF0);
+ 164   1       LCD_Enable();
+ 165   1      }
+ 166          //-----------------------------------------------------------------------------------
+ 167          void LCD_INIT_TEMP()
+ 168          {
+ 169   1              // Printing once the template on the LCD
+ 170   1              LCD_Command(0x01);
+ 171   1              //LCD_String("ELBW WEATHER STATION");
+ 172   1              LCD_Command(0x80);
+ 173   1      
+ 174   1              LCD_String("ELBW TECHNOLOGY SA");
+ 175   1      
+ 176   1              LCD_Command(0xC0);
+C51 COMPILER V8.06   LCD_DISPLAY                                                           09/14/2010 11:41:14 PAGE 4   
+
+ 177   1              LCD_String("TEST AND MEASUREMENT ");
+ 178   1      
+ 179   1              LCD_Command(0x94);
+ 180   1              LCD_String("INITIALISATION");
+ 181   1      
+ 182   1              LCD_Command(0xD4);
+ 183   1              LCD_String("READING DATA...");
+ 184   1      
+ 185   1              Delay(250);
+ 186   1              Delay(250);
+ 187   1      }
+ 188           //-----------------------------------------------------------------------------------
+ 189          void LCD_Template()
+ 190          {
+ 191   1              // Printing once the template on the LCD
+ 192   1              LCD_Command(0x01);
+ 193   1              //LCD_String("ELBW WEATHER STATION");
+ 194   1              LCD_Command(0x80);
+ 195   1      
+ 196   1              LCD_String("WIND     m/s       ");
+ 197   1              LCD_Command(0x93);
+ 198   1              LCD_String(&deg[0]);
+ 199   1      
+ 200   1              LCD_Command(0xC0);
+ 201   1              LCD_String("TEMP ");
+ 202   1              LCD_Command(0xCA);
+ 203   1      
+ 204   1              LCD_String(&deg[0]); 
+ 205   1              LCD_Command(0xCB);
+ 206   1              LCD_String("C");
+ 207   1      
+ 208   1              LCD_Command(0x94);
+ 209   1              LCD_String("HR ");
+ 210   1      
+ 211   1              LCD_Command(0x9C);
+ 212   1              LCD_String( "%");
+ 213   1      
+ 214   1              LCD_Command(0x9E);
+ 215   1              LCD_String( "DP ");
+ 216   1              LCD_Command(0xA6);
+ 217   1              LCD_String(&deg[0]);
+ 218   1              LCD_Command(0xA7);
+ 219   1              LCD_String("C");
+ 220   1      
+ 221   1              LCD_Command(0xD4);
+ 222   1              LCD_String("PRES ");
+ 223   1      
+ 224   1              LCD_Command(0xDF);
+ 225   1              LCD_String("mbar");
+ 226   1      }
+ 227          
+ 228          //------------------------------------------------------------------------------------
+ 229          void LCD_String(unsigned char *String)
+ 230          {
+ 231   1       while(*String)
+ 232   1        LCD_Data(*String++);
+ 233   1      }
+ 234          LCD_Init()
+ 235          {
+ 236   1       P1_3=1; //Set Enable 
+ 237   1       P1_2=0; //Clear RS for command LCD
+ 238   1       LCD_Command(0x33); // 
+C51 COMPILER V8.06   LCD_DISPLAY                                                           09/14/2010 11:41:14 PAGE 5   
+
+ 239   1       LCD_Command(0x32); //
+ 240   1       LCD_Command(0x28); // 2 line & 4 bit operation  
+ 241   1       LCD_Command(0x0C); //
+ 242   1       LCD_Command(0x06); // Display with cursor right shift
+ 243   1       LCD_Command(0x01); // CLS
+ 244   1      }
+ 245          
+ 246          //------------------------------------------------------------------------------------
+ 247            void receive_serial()interrupt 4
+ 248          {
+ 249   1              static unsigned char i = 0 ;
+ 250   1              static unsigned char init = 0 ; 
+ 251   1              static unsigned char buff = 0;
+ 252   1              static unsigned char NbrByte=0;
+ 253   1      
+ 254   1      if(init == 0) 
+ 255   1      {
+ 256   2              if (RI==1)               //     receive interrupt flag is set by hardware 
+ 257   2               {
+ 258   3                temp=SBUF;
+ 259   3                RI=0;         // Clear the receive interrupt flag
+ 260   3                       // checking the start delimiter "$" and the length of the message "enough to determine the protocole ty
+             -pe" 
+ 261   3                      if ((temp=='$' || test ==1 )&& (i >= 0&& i <=95)) //
+ 262   3                      {       
+ 263   4                              test=1;
+ 264   4                              dataWind[i]= temp;
+ 265   4                              ++i;
+ 266   4                      }
+ 267   3                      else //
+ 268   3                      {       
+ 269   4                              REN = 0 ;         // disable serial recption                    
+ 270   4                              i=0;
+ 271   4                              init = 1;
+ 272   4                                      
+ 273   4                              LCD_Command(0xD4);
+ 274   4                              LCD_String("IDENTIFICATION...  ");
+ 275   4                              Delay(250);
+ 276   4                              Delay(250);
+ 277   4                              i=0;
+ 278   4                              for (i=0;i<=90; i++ )   // scanning the data
+ 279   4                                      {
+ 280   5                                        if(dataWind[i]=='$')   // looking for a '$' character
+ 281   5                                        {
+ 282   6                                              if(dataWind[i+4]=='W' && dataWind[i+5]=='V' && check(i)==1 ) // Wind speed and angle?? checksum??
+ 283   6                                                      {buff = buff | 1; }
+ 284   6                                              else if(dataWind[i+4]=='T' && dataWind[i+5]=='A' && check(i)==1)  // Air temperature?? checksum??
+ 285   6                                                      {buff = buff | 2;}
+ 286   6                                              else if(dataWind[i+4]=='H' && dataWind[i+5]=='U' && check(i)==1)        // Humidity?? checksum??
+ 287   6                                                      {buff = buff | 4;}
+ 288   6                                              else if (dataWind[i+4]=='M' && dataWind[i+5]=='B' && check(i)==1)       // Barometer?? checksum??
+ 289   6                                                      {buff = buff | 8;}
+ 290   6                                        }
+ 291   5                                      }
+ 292   4      
+ 293   4                              i=0     ;
+ 294   4                              test = 0; 
+ 295   4                                                
+ 296   4                        switch(buff)
+ 297   4                        {       
+ 298   5                               case 1:                  
+ 299   5                                      LCD_Command(0xD4);
+C51 COMPILER V8.06   LCD_DISPLAY                                                           09/14/2010 11:41:14 PAGE 6   
+
+ 300   5                                      LCD_String("NMEA  Protocol  M  ");
+ 301   5                                      NbrByte = 28;
+ 302   5                                      Delay(250);
+ 303   5                                      Delay(250);     
+ 304   5                                      LCD_Template();
+ 305   5                                      Delay(250);
+ 306   5                                      Delay(250);
+ 307   5                                      break;
+ 308   5                              case 3:           
+ 309   5                                      LCD_Command(0xD4);
+ 310   5                                      LCD_String("MNEA  Protocol  R  ");
+ 311   5                                      NbrByte = 47;
+ 312   5                                      Delay(250);
+ 313   5                                      Delay(250);     
+ 314   5                                      LCD_Template();
+ 315   5                                      Delay(250);
+ 316   5                                      Delay(250);
+ 317   5                                      break;
+ 318   5                              case 11:                  
+ 319   5                                      LCD_Command(0xD4);
+ 320   5                                      LCD_String("NMEA  Protocol  N  ");
+ 321   5                                      Delay(250);
+ 322   5                                      Delay(250);     
+ 323   5                                      LCD_Template();
+ 324   5                                      Delay(250);
+ 325   5                                      Delay(250);
+ 326   5                                      NbrByte = 69;
+ 327   5                                      break;
+ 328   5                               case 15:                 
+ 329   5                                      LCD_Command(0xD4);
+ 330   5                                      LCD_String("NMEA  Protocol  O  ");
+ 331   5                                      Delay(250);
+ 332   5                                      Delay(250);     
+ 333   5                                      LCD_Template();
+ 334   5                                      Delay(250);
+ 335   5                                      Delay(250);
+ 336   5                                      NbrByte = 95;
+ 337   5                                      break;
+ 338   5                              default :                 
+ 339   5                                      LCD_Command(0xD4);
+ 340   5                                      LCD_String("NMEA  Protocol  ?  ");
+ 341   5                                      Delay(250);
+ 342   5                                      Delay(250);     
+ 343   5                                      LCD_INIT_TEMP();
+ 344   5                                      Delay(250);
+ 345   5                                      Delay(250);     
+ 346   5                                      init = 0;
+ 347   5                                      break;
+ 348   5                              }
+ 349   4                                                              
+ 350   4                      }
+ 351   3              }                                       
+ 352   2                      REN = 1 ;         // Enable serial reception                                    
+ 353   2                  TI=0;         // transmit interrupt flag 
+ 354   2      }
+ 355   1      
+ 356   1      else 
+ 357   1      {
+ 358   2              if (RI==1)               //     receive interrupt flag is set by hardware 
+ 359   2               {
+ 360   3                temp=SBUF;
+ 361   3                RI=0;         // Clear the receive interrupt flag
+C51 COMPILER V8.06   LCD_DISPLAY                                                           09/14/2010 11:41:14 PAGE 7   
+
+ 362   3                       // checking the start delimiter "$" and the length of the message NbrByte 
+ 363   3                      if ((temp=='$' || test ==1 )&& (i >= 0&& i <=NbrByte) )
+ 364   3                      {       
+ 365   4                              test=1;
+ 366   4                              dataWind[i]= temp;
+ 367   4                              ++i;
+ 368   4                      }
+ 369   3              else //
+ 370   3                      {
+ 371   4                              REN = 0 ;         // disable serial recption
+ 372   4                                 
+ 373   4                      //XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX     
+ 374   4      
+ 375   4                              for (i=0;i<=(NbrByte-5); i++ )  // scanning the data
+ 376   4                                      {
+ 377   5                                        if (dataWind[i]=='$')  // looking for a '$' character
+ 378   5                                        {
+ 379   6                                              if(dataWind[i+4]=='W' && dataWind[i+5]=='V' && check(i)==1 ) // Wind speed and angle 
+ 380   6                                              {                               
+ 381   7                                              LCD_Command(0x85); // setting the start position wind speed
+ 382   7                                                      // updating the wind speed
+ 383   7                                                      dataBuff[0] = dataWind[i+15];
+ 384   7                                                      dataBuff[1] = dataWind[i+16];
+ 385   7                                                      dataBuff[2] = dataWind[i+17];
+ 386   7                                                      dataBuff[3] = dataWind[i+18];    
+ 387   7                                                      dataBuff[4] = 0; // Ending the string  with a null character
+ 388   7                                                      LCD_String(&dataBuff[0]);
+ 389   7      
+ 390   7                                                      LCD_Command(0x8E);      // setting the start position for the wind direction
+ 391   7                                                       //updating the wind direction 
+ 392   7                                                      dataBuff[0] = dataWind[i+7];
+ 393   7                                                      dataBuff[1] = dataWind[i+8];
+ 394   7                                                      dataBuff[2] = dataWind[i+9];
+ 395   7                                                      dataBuff[3] = dataWind[i+10];    
+ 396   7                                                      dataBuff[4] = dataWind[i+11];
+ 397   7                                                      dataBuff[5] = 0; // Ending the string  with a null character
+ 398   7                                                      LCD_String(&dataBuff[0]);
+ 399   7                                               }
+ 400   6                                              else if(dataWind[i+4]=='T' && dataWind[i+5]=='A' && check(i)==1 )  // Air temperature
+ 401   6                                              {
+ 402   7                                                      LCD_Command(0xC5);      // setting the start position for the temperature
+ 403   7                                                       // updating the temperature
+ 404   7                                                      dataBuff[0] = dataWind[i+7];
+ 405   7                                                      dataBuff[1] = dataWind[i+8];
+ 406   7                                                      dataBuff[2] = dataWind[i+9];
+ 407   7                                                      dataBuff[3] = dataWind[i+10];    
+ 408   7                                                      dataBuff[4] = dataWind[i+11];
+ 409   7                                                      dataBuff[5] = 0; // Ending the string  with a null character
+ 410   7                                                      LCD_String(&dataBuff[0]);
+ 411   7                                              }
+ 412   6                                              else if(dataWind[i+4]=='H' && dataWind[i+5]=='U' && check(i)==1)        // Humidity
+ 413   6                                              {
+ 414   7                                                               LCD_Command(0x97);// setting the start position for the humidity
+ 415   7                                                      // updating the humidity
+ 416   7                                                      dataBuff[0] = dataWind[i+7];
+ 417   7                                                      dataBuff[1] = dataWind[i+8];
+ 418   7                                                      dataBuff[2] = dataWind[i+9];
+ 419   7                                                      dataBuff[3] = dataWind[i+10];    
+ 420   7                                                      dataBuff[4] = dataWind[i+11];
+ 421   7                                                      dataBuff[5] = 0; // Ending the string  with a null character
+ 422   7                                                      LCD_String(&dataBuff[0]);
+ 423   7      
+C51 COMPILER V8.06   LCD_DISPLAY                                                           09/14/2010 11:41:14 PAGE 8   
+
+ 424   7                                                      LCD_Command(0xA1);// setting the start position for the dew point
+ 425   7                                                      // updating the dew point
+ 426   7                                                      dataBuff[0] = dataWind[i+14];
+ 427   7                                                      dataBuff[1] = dataWind[i+15];
+ 428   7                                                      dataBuff[2] = dataWind[i+16];
+ 429   7                                                      dataBuff[3] = dataWind[i+17];    
+ 430   7                                                      dataBuff[4] = dataWind[i+18];
+ 431   7                                                      dataBuff[5] = 0; // Ending the string  with a null character
+ 432   7                                                      LCD_String(&dataBuff[0]);
+ 433   7      
+ 434   7                                              }
+ 435   6                                              else if(dataWind[i+4]=='M' && dataWind[i+5]=='B' && check(i)==1)        // Barometer
+ 436   6                                              {
+ 437   7                                                      LCD_Command(0xD9);// setting the start position for the pressure
+ 438   7                                                      // updating the pressure
+ 439   7                                                      dataBuff[0] = dataWind[i+9];
+ 440   7                                                      dataBuff[1] = dataWind[i+10];
+ 441   7                                                      dataBuff[2] = dataWind[i+11];
+ 442   7                                                      dataBuff[3] = dataWind[i+12];    
+ 443   7                                                      dataBuff[4] = dataWind[i+13];
+ 444   7                                                      dataBuff[5] = dataWind[i+14];
+ 445   7                                                      dataBuff[6] = 0; // Ending the string  with a null character
+ 446   7                                                      LCD_String(&dataBuff[0]);
+ 447   7                                              }
+ 448   6                              
+ 449   6                                        }
+ 450   5      
+ 451   5                                      }                               
+ 452   4              //XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX             
+ 453   4      
+ 454   4                              i=0     ;
+ 455   4                              test = 0; 
+ 456   4                              REN = 1 ;         // Enable serial reception
+ 457   4                      }
+ 458   3                                      }               
+ 459   2               TI=0;    // transmit interrupt flag     
+ 460   2      }               
+ 461   1       }
+ 462          //------------------------------------------------------------------------
+ 463          //########################################################################
+ 464          void main()
+ 465          {
+ 466   1       LCD_Init();
+ 467   1       LCD_INIT_TEMP();
+ 468   1       Init_Serial();
+ 469   1      
+ 470   1       while(1) ;
+ 471   1      
+ 472   1      }
+ 473          //#########################################################################
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =   1472    ----
+   CONSTANT SIZE    =    244    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =    110       3
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

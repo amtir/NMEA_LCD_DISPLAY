@@ -1,0 +1,227 @@
+
+
+*****************************
+******************
+Distrelec 
+*****************************
+
+Alimentation enfichable 24 VDC 700 mA
+No. d'art. :	921126
+Constructeur :	Alpha Elettronica
+Type :	SW18-24-60
+
+Prix: 47.34 CHF
+
+escription	Alimentation enfichable
+Tension de sortie	24 VDC
+Courant de sortie	700 mA
+Tension d'entrée	230 VAC @ 50 Hz
+Tolérance de tension	±10 %
+Ondulation résiduelle	< 50 mV
+Résistant aux court-circuits	oui
+Norme éprouvée	EN 50082-1/-2
+Connexion côté primaire	Fiche Euro
+Connexion côté secondaire	Couplage d'inversion de polarité avec connecteurs enfichables creux: 5.5 x 2.1/5.5 x 2.5 mm
+Poids	200 g
+Dimensions l x p x h	80 x 34 x 59 mm
+
+
+
+//#####################################################################################//
+
+
+Interrupteurs à bascule noir 0-I (blanc) 1P
+
+	
+No. d'art. :	208665
+Constructeur :	Taiway
+Type :	R19-R112A-T2-2-B
+
+prix: 
+
+//#####################################################################################//
+Prise de tension externe 2.1 mm/5.5 mm
+
+No. d'art. :	110116
+Constructeur :	Switchcraft
+Type :	722A
+
+Prix: 10.33 CHF
+
+Exécution	Prise d'appareil, Droit
+Broche	2.1 mm
+Diamètre intérieur	5.5 mm
+Courant nominal	5 A
+Tension d'essai	250 VAC
+Nbre de pôles	2
+
+
+//#####################################################################################//
+RS 485: ADM485ANZ Analog Device DIL-8
+N° article : 643750  
+Prix: 6.46
+
+//#####################################################################################//
+DC/DC: TEN 3-2411
+No. d'art. :	362087
+Constructeur :	Traco Power
+Type :	TEN 3-2411
+
+//#####################################################################################//
+Diode : Transient suppressor diode DO-201 30.8 V 1500 W
+	
+No. d'art. :	600436
+Constructeur :	ST
+Type :	1.5KE 36A
+
+Exécution	Unidirectionnel
+Tension Stand Off	30.8 V
+Tension Breakdown	36 V
+Tolérance de VBR	+5 %
+Puissance de pointe dissipée de l'impulsion	1500 W
+Type de boîtier	DO-201
+
+//#####################################################################################//
+
+
+
+************************
+************
+FARNELL 
+************************
+Microcontrôleur: NXP - P89V51RB2FN - MCU 8BIT 80C51 16K FLASH, DIP40 
+Fabricant: NXP 
+Code commande: 1524683
+Référence fabricant:  P89V51RB2FN 
+prix: 2,96 € 
+
+//#####################################################################################//
+LCD : BATRON - BTHQ42005VSS-SMN-LED WHITE - AFFICHEUR LCD 20X4 
+Fabricant: BATRON 
+Code commande: 9448888
+Référence fabricant: BTHQ42005VSS-SMN-LED WHITE / BLUE
+
+Prix: 52,31 €
+
+//#####################################################################################//
+Résistance : 
+
+
+//#####################################################################################//
+Capacité :
+
+MULTICOMP - MC0805N300J500A2.54MM - CAPACITOR CERAMIC 30PF, 50V, C0G, RADIAL
+Fabricant:   MULTICOMP 
+Code commande:  1694257
+Référence fabricant:  MC0805N300J500A2.54MM 
+
+//#####################################################################################//
+Potentiomètre : 10K
+
+BI TECHNOLOGIES / TT ELECTRONICS - P160KNP-0EC15A10K -
+
+Fabricant: BI TECHNOLOGIES / TT ELECTRONICS 
+Code commande: 1629568
+Référence fabricant: P160KNP-0EC15A10K 
+
+Prix: 1.8 CHF 
+//#####################################################################################//
+
+LAPP KABEL - 52003500 - ECROU DE PRESSE ETOUPE PG9 
+Fabricant:  LAPP KABEL 
+Code commande:  1178919
+Référence fabricant:  52003500 
+Matière:Laiton, Revêtement:Nickel, Epaisseur:2.8mm, 
+
+Prix: 0,39 € 
+
+
+//#####################################################################################//
+
+
+TYCO ELECTRONICS / AMP - 16MM GREY - PRESSE-ETOUPE GRIS M16 
+Fabricant:    TYCO ELECTRONICS / AMP 
+Code commande:    1174593
+Référence fabricant:   16MM GREY 
+
+Prix: 0,58 € 
+
+    * PRESSE-ETOUPE GRIS M16
+    * Matière:Nylon
+    * Diamètre de câble:10mm
+    * Couleur:Grey
+    * Indice IP:68
+    * Taille du filetage:M16
+    * Type d'accessoire:Gland
+    * Diamètre, câble max.:10mm
+    * Diamètre, câble min.:5mm
+    * Taille de filetage métrique:M16
+    * Approuvé:VDE
+    * Diamètre trou de fixation:16mm
+    * Largeur AF corps:22mm
+    * Largeur AF écrou:22mm
+    * Longueur, filetage:10mm
+    * Longueur/hauteur:5mm
+    * Température de fonctionnement max.:80°C
+    * Température de fonctionnement min.:-30°C
+    * Type de connecteur:Cable Clamp (Gland)
+
+
+//#####################################################################################//
+
+
+Quartz 18.432000 MHz
+
+Prix: 2,13 €
+
+Fabricant: MULTICOMP 
+Code commande:  1667004
+Référence fabricant:  HC49S-18.432-30-50-60-30-ATF 
+
+    * CRYSTAL, HC-49/S, 18.432MHZ
+    * Fréquence:18.432MHz
+    * Tolérance en fréquence:± 30ppm
+    * Capacité, charge:30pF
+    * Stabilité en fraquence:± 50ppm
+    * Température de fonctionnement:-10°C à +60°C
+    * Type de montage Quartz:Traversant
+    * Série:HC49
+    * Type de boitier de quartz:HC49/S
+    * Nombre de broches:2
+    * Fréquence, sortie:18.432MHz
+    * Précision:± 30ppm
+    * Température, stabilité:± 50ppm
+
+
+
+//#####################################################################################//
+
+
+MULTICOMP - MCRP1215 - BOX, ABS, IP65, 145X105X60MM
+Fabricant:   MULTICOMP 
+Code commande:  1635139
+Référence fabricant: MCRP1215 
+
+Prix: 17,38 €
+
+    * BOX, ABS, IP65, 145X105X60MM
+    * Type de boîtier:Toutes utilisations
+    * Matériau du corps:ABS
+    * Body Colour:Light Grey
+    * Hauteur, dimension externe:60mm
+    * Largeur (externe):145mm
+    * Profondeur externe:105mm
+    * IP Rating:65
+    * SVHC:No SVHC (18-Jun-2010)
+    * Couleur:Light Grey
+    * Couleur du boîtier:Gris
+    * Indice IP:65
+    * Inflammabilité:UL94HB
+    * Longueur/hauteur:60mm
+    * Matière:ABS
+    * Matériau du boîtier:ABS
+    * Profondeur:105mm
+
+
+//#####################################################################################//
+
